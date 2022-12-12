@@ -1,0 +1,78 @@
+.login-background {
+    //background-color: aqua;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+    font-family: "work sans";
+    .login-container {
+        width: 500px;
+        height: 60%;
+        border-radius: 25px;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+        background-color: white;
+        .login-content {
+            padding: 10px;
+            .text-login {
+                text-align: center;
+                font-size: 30px;
+                font-weight: 600;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            .form-group {
+                margin-bottom: 20px;
+                .customs-eye {
+                    position: relative;
+                    i {
+                        position: absolute;
+                        right: 15px;
+                        top: 20px;
+                        cursor: pointer;
+                    }
+                }
+                .form-label {
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: black
+                }
+                .form-control {
+                    border-radius: 15px;
+                    border: none;
+                    box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+                    padding: 10px 20px;
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: rgb(89, 88, 88);
+                }
+                
+            }
+
+            .forgot-password{
+                font-size: 14px;
+            }
+
+            .group-btn {
+                display: flex;
+                justify-content: center;
+                margin: auto;
+                .btn {
+                    width: 50%;
+                    margin: 10px 5px;
+                    height: 50px;
+                    border-radius: 15px;
+                    outline: none;
+                    border: none;
+                    color: black;
+                    font-size: 20px;
+                    background: linear-gradient(135deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+                }
+            }
+        }
+        
+    }
+}
+
