@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import './Login.scss';
+import { handleLogin } from '../../services/userService';
 //import { FormattedMessage } from 'react-intl';
 
 
@@ -10,15 +11,15 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
+            email: '',
             password: '',
-            isShowPassword: false
+            errorMessage: '',
         };
     }
 
     handelChangeUser(e) {
         this.setState({
-            username: e.target.value
+            email: e.target.value
         })
     }
     handelChangePass(e) {
@@ -27,14 +28,29 @@ class Login extends Component {
         })
     }
 
-    isShowPassword() {
+    handelLogin = async () => {
         this.setState({
-            isShowPassword: !this.state.isShowPassword
+            errorMessage: ''
         })
-    }
-
-    handelLogin() {
-        
+        try {
+            let data = await handleLogin(this.state.email, this.state.password);
+            if (data && data.errCode !== 0) {
+                this.setState({
+                    errorMessage: data.message
+                })
+            }
+            if (data && data.errCode === 0) {
+               this.setState({
+                     errorMessage: 'Login success'
+                })
+            }
+        } catch (error) {
+            if (error.response && error.response.data) {
+                this.setState({
+                    errorMessage: error.response.data.message
+                })
+            }
+        }
     }
 
     render() {
@@ -44,11 +60,11 @@ class Login extends Component {
                     <div className="login-content row">
                         <div className='col-12 text-login'>Login</div>
                         <div className='col-12 form-group'>
-                            <label className='form-label'>Username:</label>
+                            <label className='form-label'>Email:</label>
                             <input 
                                 type="text" 
                                 className="form-control" 
-                                value={this.state.username} 
+                                value={this.state.email} 
                                 placeholder="Enter your username"
                                 onChange={(e) => {this.handelChangeUser(e)}}
                                 />
@@ -57,17 +73,16 @@ class Login extends Component {
                             <label className='form-label' >Password:</label>
                             <div className='customs-eye'>
                                 <input 
-                                    type= {this.state.isShowPassword ? "text" : "password"}
+                                    type= 'password'
                                     className="form-control" 
                                     value={this.state.password} 
                                     placeholder="Enter your password"
                                     onChange={(e) => {this.handelChangePass(e)}}
                                 />
-                                <span>
-                                    <i className={this.state.isShowPassword ? 'fas fa-eye':'fas fa-eye-slash'} onClick={() => {this.isShowPassword()}}></i>
-                                </span>
-                                
                             </div>
+                        </div>
+                        <div className='col-12' style={{ fontSize:'20px' ,color: 'red'}}>
+                            {this.state.errorMessage}
                         </div>
                         <div className='col-12 group-btn'>
                                 <button type="submit" className="btn" onClick={() => {this.handelLogin()}}>Login</button>
