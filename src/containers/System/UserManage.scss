@@ -1,0 +1,81 @@
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #04AA6D;
+  color: white;
+}
+
+.btn-edit{
+  width: 50px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: orange;
+  &:hover{
+    background-color: transparent !important;
+    cursor: pointer;
+  }
+}
+.btn-delete{
+  width: 50px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: red;
+  &:hover{
+    background-color: transparent !important;
+    cursor: pointer;
+  }
+}
+
+.modal-user-container{
+  .modal-content{
+    .modal-header{
+      button {
+        background-color: transparent;
+        color: white;
+        border: none;
+        font-size: 27px;
+      }
+    }
+  }
+
+  .modal-user-body{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    .input-container{
+      display: flex;
+      flex-direction: column;
+      width: 49%;
+      &.input-container-full{
+        width: 100%;
+      }
+
+      .input {
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        height: 30px;
+        outline: none;
+        padding: 0 10px;
+      }
+    }
+  }
+}
