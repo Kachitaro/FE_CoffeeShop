@@ -4,6 +4,7 @@ import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import './Login.scss';
 import { handleLogin } from '../../services/userService';
+import { userLoginSuccess } from '../../store/actions';
 //import { FormattedMessage } from 'react-intl';
 
 
@@ -40,9 +41,7 @@ class Login extends Component {
                 })
             }
             if (data && data.errCode === 0) {
-               this.setState({
-                     errorMessage: 'Login success'
-                })
+               this.props.userLoginSuccess(data.data);
             }
         } catch (error) {
             if (error.response && error.response.data) {
@@ -65,7 +64,7 @@ class Login extends Component {
                                 type="text" 
                                 className="form-control" 
                                 value={this.state.email} 
-                                placeholder="Enter your username"
+                                placeholder="Enter your email"
                                 onChange={(e) => {this.handelChangeUser(e)}}
                                 />
                         </div>
@@ -108,8 +107,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         navigate: (path) => dispatch(push(path)),
-        adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
-        adminLoginFail: () => dispatch(actions.adminLoginFail()),
+        //adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
+        userLoginFail: () => dispatch(actions.userLoginFail()),
+        userLoginSuccess: (adminInfo) => dispatch(actions.userLoginSuccess(adminInfo)),
+       
     };
 };
 
