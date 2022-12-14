@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './UserManage.scss';
-import { handleGetAllUser } from '../../services/userService';
+import { handleGetAllUser, createNewUserService } from '../../services/userService';
 import ModalUser from './ModalUser';
 
 class UserManage extends Component {
@@ -15,6 +15,10 @@ class UserManage extends Component {
         };
     }
     async componentDidMount() {
+        await this.getAllUser();
+    }
+
+    getAllUser = async () => {
         let data = await handleGetAllUser('All');
         if (data && data.errCode === 0) {
             this.setState({
@@ -22,18 +26,50 @@ class UserManage extends Component {
             })
         }
     }
-
     handleAddNewUser = () => {
          this.setState({
             isOpenModal: true
         })
-        console.log(this.state.isOpenModal);
     }
 
     toggleUserModal = () => {
         this.setState({
             isOpenModal: !this.state.isOpenModal
         })
+    }
+
+    addDefaultDate = (data) => {
+        let position = data.position;
+        if(position === 'Shift leader') {
+            data.salary = 8000000;
+            data.roleId = 'R2';
+            data.password ='SL123456';
+        } else if(position === 'cashier') {
+            data.salary = 6500000;
+            data.roleId = 'R2';
+            data.password ='SL123456';
+        } else {
+            data.salary = 6000000;
+            data.roleId = 'R2';
+            data.password ='SL123456';
+        }
+    }
+
+    createNewUser = async (data) => {
+        //set salary, roleId, password from position
+        this.addDefaultDate(data);
+        try {
+            let response = await createNewUserService(data);
+            if(response && response.errCode !== 0) {
+                alert(response.message);
+                
+            } else {
+                await this.getAllUser();
+                this.toggleUserModal();
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 
@@ -77,6 +113,7 @@ class UserManage extends Component {
                 <ModalUser
                     isOpen={this.state.isOpenModal}
                     toggleUserModal={this.toggleUserModal}
+                    createNewUser={this.createNewUser}
                 />
             </div>
             

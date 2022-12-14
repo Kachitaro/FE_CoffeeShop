@@ -7,14 +7,16 @@ class ModalUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: '',
             email: '',
             password: '',
             address: '',
-            phone: '',
-            gender: 0,
+            phoneNumber: '',
+            gender: '',
             birthDate: '',
             salary: '',
             position: '',
+            roleId: '',
         }
     }
     componentDidMount() {
@@ -29,10 +31,32 @@ class ModalUser extends Component {
         copyState[id] = e.target.value;
         this.setState({
             ...copyState
-        }, () => {
-            console.log(this.state)
         })
     }
+
+    checkValidate = () => {
+        let isValidate = true;
+        // check validate
+        let arrInput = ['name', 'email', 'address', 'phoneNumber', 'gender', 'birthDate', 'position'];
+        for (let i = 0; i < arrInput.length; i++) {
+            if(!this.state[arrInput[i]]) {
+                isValidate = false;
+                break;
+            }  
+        }
+        return isValidate;
+    }
+
+    handleAddNewUser = () => {
+        if(this.checkValidate()) {
+            this.props.createNewUser(this.state);
+        } else {
+            alert('Please fill all input');
+        }
+    }
+
+
+
 
     render() {
         return (
@@ -45,6 +69,15 @@ class ModalUser extends Component {
                 <ModalHeader toggle={() => this.toggle()}>Add New Staff</ModalHeader>
                 <ModalBody>
                     <div className='modal-user-body'>
+                    <div className='input-container'>
+                            <label>Name</label>
+                            <input 
+                                type='text' 
+                                className='input' 
+                                onChange={(e) => this.handleOnchangeInput(e, "name")} 
+                                value={this.state.name}
+                            />
+                        </div>
                         <div className='input-container'>
                             <label>Email</label>
                             <input
@@ -59,9 +92,10 @@ class ModalUser extends Component {
                                 className='input' 
                                 onChange={(e) => this.handleOnchangeInput(e, "gender")} 
                                 value={this.state.gender}
-                                >
-                                    <option value="0">Male</option>
-                                    <option value="1">Female</option>
+                                >   
+                                    <option disabled={true} value=""> --- Select Gender ---</option>
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
                             </select>
                         </div>
                         <div className='input-container'>
@@ -69,8 +103,8 @@ class ModalUser extends Component {
                             <input 
                                 type='text' 
                                 className='input' 
-                                onChange={(e) => this.handleOnchangeInput(e, "phone")} 
-                                value={this.state.phone}
+                                onChange={(e) => this.handleOnchangeInput(e, "phoneNumber")} 
+                                value={this.state.phoneNumber}
                                 />
                         </div>
                         <div className='input-container'>
@@ -83,6 +117,19 @@ class ModalUser extends Component {
                                 />
                         </div>
                         <div className='input-container'>
+                            <label>Position</label>
+                            <select 
+                                className='input' 
+                                onChange={(e) => this.handleOnchangeInput(e, "position")}
+                                value={this.state.position}
+                                >
+                                <option disabled={true} value=""> --- Select position ---</option>
+                                <option value="Shift leader">Shift Leader</option>
+                                <option value="cashier">Cashier</option>
+                                <option value="service">Service</option>
+                            </select>
+                        </div>
+                        <div className='input-container input-container-full'>
                             <label>Address</label>
                             <input 
                                 type='text' 
@@ -91,22 +138,10 @@ class ModalUser extends Component {
                                 value={this.state.address}
                             />
                         </div>
-                        <div className='input-container'>
-                            <label>Position</label>
-                            <select 
-                                className='input' 
-                                onChange={(e) => this.handleOnchangeInput(e, "position")}
-                                value={this.state.position}
-                                >
-                                <option value="Shift leader">Shift Leader</option>
-                                <option value="cashier">Cashier</option>
-                                <option value="service">Service</option>
-                            </select>
-                        </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" className='px-3' onClick={() => this.toggle()}>
+                    <Button color="primary" className='px-3' onClick={() => this.handleAddNewUser()}>
                         Add New
                     </Button>
                     <Button color="secondary" className='px-3' onClick={() => this.toggle()}>
