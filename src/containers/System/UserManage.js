@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './UserManage.scss';
-import { handleGetAllUser, createNewUserService, handleDeleteUserService } from '../../services/userService';
+import { handleGetAllUser, createNewUserService, handleDeleteUserService, editUserService } from '../../services/userService';
 import ModalUser from './ModalUser';
+import ModalEditUser from './ModalEditUser';
 import { emitter } from '../../utils/emitter';
 
 class UserManage extends Component {
@@ -12,7 +13,9 @@ class UserManage extends Component {
         super(props);
         this.state = {
             users: [],
-            isOpenModal: false,
+            userEdit: {},
+            isOpenModalAddNew: false,
+            isOpenModalEdit: false,
         };
     }
     async componentDidMount() {
@@ -29,13 +32,19 @@ class UserManage extends Component {
     }
     handleAddNewUser = () => {
          this.setState({
-            isOpenModal: true
+            isOpenModalAddNew: true
         })
     }
 
     toggleUserModal = () => {
         this.setState({
-            isOpenModal: !this.state.isOpenModal
+            isOpenModalAddNew: !this.state.isOpenModalAddNew,
+        })
+    }
+
+    toggleUserModalEdit = () => {
+        this.setState({
+            isOpenModalEdit: !this.state.isOpenModalEdit,
         })
     }
 
@@ -53,6 +62,20 @@ class UserManage extends Component {
             data.salary = 6000000;
             data.roleId = 'R2';
             data.password ='SL123456';
+        }
+    }
+
+    editDefaultDate = (data) => {
+        let position = data.position;
+        if(position === 'Shift leader') {
+            data.salary = 8000000;
+            data.roleId = 'R2';
+        } else if(position === 'cashier') {
+            data.salary = 6500000;
+            data.roleId = 'R2';
+        } else {
+            data.salary = 6000000;
+            data.roleId = 'R2';
         }
     }
 
@@ -75,7 +98,6 @@ class UserManage extends Component {
     }
 
     handleDeleteUser = async (data) => {
-        console.log(data.id);
         try {   
             let response = await handleDeleteUserService(data.id);
             console.log(response);
@@ -86,6 +108,25 @@ class UserManage extends Component {
             }
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    handleEditUser = (data) => {
+        console.log(data);
+        this.setState({
+            isOpenModalEdit: true,
+            userEdit: data
+        })
+    }
+
+    handleUserEdit = async (data) => {
+        this.editDefaultDate(data);
+        let response = await editUserService(data);
+        if(response && response.errCode === 0) {
+            await this.getAllUser();
+            this.toggleUserModalEdit();
+        } else {
+            alert(response.message);
         }
     }
 
@@ -106,6 +147,7 @@ class UserManage extends Component {
                                 <th>Email</th>
                                 <th>PhoneNumber</th>
                                 <th>Gender</th>
+                                <th>Position</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -117,8 +159,9 @@ class UserManage extends Component {
                                         <td>{item.email}</td>
                                         <td>{item.phoneNumber}</td>
                                         <td>{item.gender?'Male':'Female'}</td>
+                                        <td>{item.position}</td>
                                         <td>
-                                            <button className='btn-edit'><i className='fas fa-pencil-alt'></i></button>
+                                            <button className='btn-edit' onClick={() => this.handleEditUser(item)} ><i className='fas fa-pencil-alt'></i></button>
                                             <button className='btn-delete' onClick={() => this.handleDeleteUser(item)} ><i className='fas fa-trash'></i></button>
                                         </td>
                                     </tr>
@@ -128,10 +171,18 @@ class UserManage extends Component {
                     </table>
                 </div>
                 <ModalUser
-                    isOpen={this.state.isOpenModal}
+                    isOpen={this.state.isOpenModalAddNew}
                     toggleUserModal={this.toggleUserModal}
                     createNewUser={this.createNewUser}
                 />
+                { 
+                    this.state.isOpenModalEdit && <ModalEditUser
+                    isOpen={this.state.isOpenModalEdit}
+                    toggleUserModal={this.toggleUserModalEdit}
+                    currentUser={this.state.userEdit}
+                    editUser={this.handleUserEdit}
+                    />
+                }
             </div>
             
         );

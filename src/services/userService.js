@@ -20,9 +20,14 @@ const handleDeleteUserService = (userId) => {
       });
 }
 
+const editUserService = (data) => {
+    return axios.put('/api/edit-user', data);
+}
+
 export  {
     handleLogin,
     handleGetAllUser,
     createNewUserService,
-    handleDeleteUserService
+    handleDeleteUserService,
+    editUserService,
 }
