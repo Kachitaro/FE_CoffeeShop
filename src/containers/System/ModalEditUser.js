@@ -92,7 +92,7 @@ class ModalEditUser extends Component {
                                 value={this.state.name}
                             />
                         </div>
-                        <div className='input-container'>
+                        <div className='input-container' hidden>
                             <label>Email</label>
                             <input
                                 type='text'
@@ -122,7 +122,7 @@ class ModalEditUser extends Component {
                                 value={this.state.phoneNumber}
                                 />
                         </div>
-                        <div className='input-container'>
+                        <div className='input-container' hidden>
                             <label>Birth Date</label>
                             <input 
                                 type="date" 

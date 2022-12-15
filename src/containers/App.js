@@ -21,7 +21,7 @@ import ConfirmModal from '../components/ConfirmModal';
 
 class App extends Component {
 
-    handlePersistorState = () => {
+    handlePersisterState = () => {
         const { persistor } = this.props;
         let { bootstrapped } = persistor.getState();
         if (bootstrapped) {
@@ -36,7 +36,7 @@ class App extends Component {
     };
 
     componentDidMount() {
-        this.handlePersistorState();
+        this.handlePersisterState();
     }
 
     render() {
