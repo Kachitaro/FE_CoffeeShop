@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import HeadersHome from './HeaderHome';
-
+import Banner from './Section/Banner';
+import FooterHome from './FooterHome';
 class HomePage extends Component {
 
     render() {
@@ -9,6 +10,9 @@ class HomePage extends Component {
         return (
             <>
                 <HeadersHome />
+                <Banner />
+                <Banner />
+                <FooterHome />
             </>
         );
     }

@@ -63,14 +63,36 @@
     }
 }
 
-.home-banner-container{
-
-    .home-banner-content{
-        .banner-item{
-            height: 60vh;
-            margin: 10px 0 10px 10px; 
-            background: url('../../assets/banner/banner_00.webp') center center no-repeat;
-            background-size: contain;
+.home-footer-container{
+    margin: 20px 20px;
+    .home-footer-content{
+        display: flex;
+        justify-content: space-between;
+        .footer-left{
+            width: 30%;
+            .footer-left-content{
+                display: flex;
+                justify-content: space-between;
+                .footer-left-item{
+                    width: 30%;
+                    .footer-left-item-content{
+                        display: flex;
+                        flex-direction: column;
+                        .footer-left-item-title{
+                            font-size: 20px;
+                            font-weight: 600;
+                            margin-bottom: 10px;
+                        }
+                        .footer-left-item-link{
+                            margin-bottom: 10px;
+                            cursor: pointer;
+                            &:hover{
+                                color: red;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

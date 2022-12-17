@@ -7,7 +7,7 @@ import './Home.scss'
  
 
 
-class HomePage extends Component {
+class HeaderHome extends Component {
     
     changeLanguage = (language) => {
         this.props.changeLanguageRedux(language);
@@ -53,11 +53,6 @@ class HomePage extends Component {
                         </div>
                     </div>
                 </div>
-                <div className='home-banner-container'>
-                    <div className='home-banner-content'>
-                        <div className='banner-item'></div>
-                    </div>
-                </div>
             </React.Fragment>
         );
     }
@@ -77,4 +72,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderHome);
