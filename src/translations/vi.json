@@ -1,4 +1,14 @@
-{
+{   
+    "homeHeader":{
+        "tea": "Trà",
+        "coffee": "Cà phê",
+        "menu": "Menu",
+        "story": "Chuyện nhà",
+        "store": "Cửa hàng",
+        "career": "Tuyển dụng",
+        "cloudFee": "Cảm hứng Cloudfee"
+    },
+
     "common": {
         "add": "Thêm",
         "edit": "Sửa",

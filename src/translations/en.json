@@ -1,4 +1,13 @@
 {
+    "homeHeader":{
+        "tea": "Tea",
+        "coffee": "Coffee",
+        "menu": "Menu",
+        "story": "Brand story",
+        "store": "Store",
+        "Career": "Career",
+        "cloudFee": "Challenge"
+    },
     "common": {
         "add": "Add",
         "edit": "Edit",
