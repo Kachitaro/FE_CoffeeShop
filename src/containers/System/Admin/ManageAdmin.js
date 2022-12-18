@@ -16,7 +16,19 @@ class ManageAdmin extends Component {
             positionArr:[],
             roleArr: [],
             previewImgURL:'',
-            isOpen: false
+            isOpen: false,
+
+            name: '',
+            email: '',
+            password: '',
+            address: '',
+            phoneNumber: '',
+            gender: '',
+            birthDate: '',
+            salary: '',
+            position: '',
+            roleId: '',
+            avatar: '',
         }
     }
 
@@ -29,19 +41,25 @@ class ManageAdmin extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot){
         if(prevProps.gender !== this.props.gender){
+            let arrGender = this.props.gender;
             this.setState({
-                genderArr: this.props.gender
+                genderArr: arrGender,
+                gender: arrGender && arrGender.length > 0 ? arrGender[0].key : ''
             })
             
         }
         if(prevProps.role !== this.props.role){
+            let arrRole = this.props.role;
             this.setState({
-                roleArr: this.props.role
+                roleArr: arrRole,
+                roleId: arrRole && arrRole.length > 0 ? arrRole[0].key : '' 
             })
         }
         if(prevProps.position !== this.props.position){
+            let arrPosition = this.props.position;
             this.setState({
-                positionArr: this.props.position
+                positionArr: arrPosition,
+                position: arrPosition && arrPosition.length > 0 ? arrPosition[0].key : '' 
             })
         }  
     }
@@ -52,7 +70,8 @@ class ManageAdmin extends Component {
         if (file){
             let objectUrl = URL.createObjectURL(file);
             this.setState({
-                previewImgURL: objectUrl
+                previewImgURL: objectUrl,
+                avatar: file
             })
         }
     }
@@ -64,14 +83,54 @@ class ManageAdmin extends Component {
             isOpen: true
         })
     }
+    handleSave = () => {
+        let isValidate = this.checkValidateInput();
+        if (isValidate === false) return;
+
+        this.props.createNewUser({
+            email: this.state.email,
+            password: this.state.password,
+            name: this.state.name,
+            address: this.state.address,
+            phoneNumber: this.state.phoneNumber,
+            gender: this.state.gender,
+            birthDate: this.state.gender,
+            salary: this.state.salary,
+            position: this.state.position,
+            roleId: this.state.roleId,
+            avatar: this.state.avatar,
+        })
+    }
+
+    checkValidateInput = () => {
+        let isValidate = true;
+        let arrCheck = ['email','password','name','phoneNumber']
+        for (let i = 0 ; i <arrCheck.length; i++){
+            if(!this.state[arrCheck[i]]){
+                isValidate = false;
+                alert('this input is required' + arrCheck[i])
+                break;
+            }
+        }
+        return isValidate;
+    }
+
+    onChangeInput = (event, id) => {
+        let copyState = {...this.state}
+        copyState[id] = event.target.value;
+        this.setState({
+            ...copyState
+        })
+    }
 
 
     render() {
-        let gender = this.state.genderArr;
+        let genderA = this.state.genderArr;
         let language = this.props.language;
         let roles = this.state.roleArr;
         let positions = this.state.positionArr;
         let isLoading = this.props.isLoading;
+        let {email, password, name, address, phoneNumber} = this.state;
         return (
             <div className='manage-admin-container'>
                 <div className='manage-admin-content'>
@@ -80,27 +139,27 @@ class ManageAdmin extends Component {
                             <form className="row mx-auto">
                                 <div className="col-md-6 mt-3">
                                     <label className="form-label">Email</label>
-                                    <input type="email" className="form-control" name="email" />
+                                    <input type="email" className="form-control" value={email} onChange={(e) => {this.onChangeInput(e,'email')}} />
                                 </div>
                                 <div className="col-md-6 mt-3">
                                     <label  className="form-label">Password</label>
-                                    <input type="password" className="form-control" name="password" />
+                                    <input type="password" className="form-control" value={password} onChange={(e) => {this.onChangeInput(e,'password')}} />
                                 </div>
                                 <div className="col-md-6 mt-3">
                                     <label className="form-label">Name</label>
-                                    <input type="text" className="form-control" name="name" />
+                                    <input type="text" className="form-control" value={name} onChange={(e) => {this.onChangeInput(e,'name')}} />
                                 </div>
                                 <div className="col-md-6 mt-3">
                                     <label className="form-label">Phone Number</label>
-                                    <input type="text" className="form-control" name="phoneNumber" />
+                                    <input type="text" className="form-control" value={phoneNumber} onChange={(e) => {this.onChangeInput(e,'phoneNumber')}} />
                                 </div>  
                                 <div className="col-md-3 mt-3">
                                     <label className="form-label">Gender</label>
-                                    <select className="form-select">
-                                        {gender && gender.length> 0 && 
-                                            gender.map((item, index) => {
+                                    <select className="form-select" onChange={(e) => {this.onChangeInput(e,'gender')}} >
+                                        {genderA && genderA.length> 0 && 
+                                            genderA.map((item, index) => {
                                                 return(
-                                                    <option key={index}>{language ===  LANGUAGE.VI ? item.valueVi : item.valueEn}</option>
+                                                    <option key={index} value={item.key}>{language ===  LANGUAGE.VI ? item.valueVi : item.valueEn}</option>
                                                 )
                                             })
                                         }
@@ -108,11 +167,11 @@ class ManageAdmin extends Component {
                                 </div>
                                 <div className="col-md-3 mt-3">
                                     <label className="form-label">ROLE</label>
-                                    <select className="form-select">
+                                    <select className="form-select" onChange={(e) => {this.onChangeInput(e,'roleId')}}>
                                         {roles && roles.length> 0 && 
                                             roles.map((item, index) => {
                                                 return(
-                                                    <option key={index}>{language ===  LANGUAGE.VI ? item.valueVi : item.valueEn}</option>
+                                                    <option key={index} value={item.key}>{language ===  LANGUAGE.VI ? item.valueVi : item.valueEn}</option>
                                                 )
                                             })
                                         }
@@ -120,11 +179,11 @@ class ManageAdmin extends Component {
                                 </div>
                                 <div className="col-md-3 mt-3">
                                     <label className="form-label">Position</label>
-                                    <select className="form-select">
+                                    <select className="form-select" onChange={(e) => {this.onChangeInput(e,'position')}}>
                                         {positions && positions.length> 0 && 
                                             positions.map((item, index) => {
                                                 return(
-                                                    <option key={index}>{language ===  LANGUAGE.VI ? item.valueVi : item.valueEn}</option>
+                                                    <option key={index} value={item.key}>{language ===  LANGUAGE.VI ? item.valueVi : item.valueEn}</option>
                                                 )
                                             })
                                         }
@@ -132,7 +191,7 @@ class ManageAdmin extends Component {
                                 </div>
                                 <div className="col-md-3 mt-3">
                                     <label className="form-label">Address</label>
-                                    <input type="text" className="form-control" name="address" />
+                                    <input type="text" className="form-control" value={address} onChange={(e) => {this.onChangeInput(e,"address")}} />
                                 </div>
                                 <div className="col-md-6 mt-3">
                                     <label className="form-label">Image</label>
@@ -143,7 +202,7 @@ class ManageAdmin extends Component {
                                     </div>
                                 </div>
                                 <div className="col-12 mt-3">
-                                    <button className="px-3 btn btn-primary">Sign in</button>
+                                    <button className="px-3 btn btn-primary" onClick={() => this.handleSave()}>Sign in</button>
                                 </div>
                             </form>
                     </div>
@@ -174,7 +233,8 @@ const mapDispatchToProps = dispatch => {
     return {
         getGenderStart: () => dispatch(actions.fetchGenderStart()),
         getPositionStart: () => dispatch(actions.fetchPositionStart()),
-        getRoleStart: () => dispatch(actions.fetchRoleStart())
+        getRoleStart: () => dispatch(actions.fetchRoleStart()),
+        createNewUser: (data) => dispatch(actions.createNewUser(data))
     };
 };
 
