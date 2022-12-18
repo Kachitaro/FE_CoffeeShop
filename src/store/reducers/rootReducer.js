@@ -26,8 +26,18 @@ const userPersistConfig = {
     whitelist: ['isLoggedIn', 'userInfo']
 };
 
-export default (history) => combineReducers({
+const appPersistConfig = {
+    ...persistCommonConfig,
+    key: 'app',
+    whitelist: ['language']
+
+};
+
+const fn = (history) => combineReducers({
     router: connectRouter(history),
     user: persistReducer(userPersistConfig, userReducer),
-    app: appReducer
+    app: persistReducer(appPersistConfig, appReducer)
 });
+
+export default fn;
+

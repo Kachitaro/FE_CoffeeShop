@@ -9,13 +9,13 @@ import IntlProviderWrapper from "./hoc/IntlProviderWrapper";
 
 
 import { Provider } from 'react-redux';
-import reduxStore, { persistor } from './redux';
+import reduxStore, { persister } from './redux';
 
 const renderApp = () => {
     ReactDOM.render(
         <Provider store={reduxStore}>
             <IntlProviderWrapper>
-                <App persistor={persistor}/>
+                <App persister={persister} />
             </IntlProviderWrapper>
         </Provider>,
         document.getElementById('root')

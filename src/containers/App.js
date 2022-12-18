@@ -17,8 +17,8 @@ import CustomScrollbars from '../components/CustomScrollbars';
 class App extends Component {
 
     handlePersisterState = () => {
-        const { persistor } = this.props;
-        let { bootstrapped } = persistor.getState();
+        const { persister } = this.props;
+        let { bootstrapped } = persister.getState();
         if (bootstrapped) {
             if (this.props.onBeforeLift) {
                 Promise.resolve(this.props.onBeforeLift())
@@ -40,7 +40,7 @@ class App extends Component {
                 <Router history={history}>
                     <div className="main-container">
                         <div className="content-container">
-                            <CustomScrollbars  style={{ height: '100vh' }}>
+                            <CustomScrollbars style={{ height: '100vh' }}>
                                 <Switch>
                                     <Route path={path.HOME} exact component={(Home)} />
                                     <Route path={path.HOMEPAGE} component={(HomePage)} />

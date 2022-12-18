@@ -42,6 +42,6 @@ const reduxStore = createStore(
 
 export const dispatch = reduxStore.dispatch;
 
-export const persistor = persistStore(reduxStore);
+export const persister = persistStore(reduxStore);
 
 export default reduxStore;
