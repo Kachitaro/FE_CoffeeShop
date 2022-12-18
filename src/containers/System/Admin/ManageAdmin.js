@@ -139,11 +139,11 @@ class ManageAdmin extends Component {
                             <form className="row mx-auto">
                                 <div className="col-md-6 mt-3">
                                     <label className="form-label">Email</label>
-                                    <input type="email" className="form-control" value={email} onChange={(e) => {this.onChangeInput(e,'email')}} />
+                                    <input type="email" className="form-control" autoComplete="off" value={email} onChange={(e) => {this.onChangeInput(e,'email')}} />
                                 </div>
                                 <div className="col-md-6 mt-3">
                                     <label  className="form-label">Password</label>
-                                    <input type="password" className="form-control" value={password} onChange={(e) => {this.onChangeInput(e,'password')}} />
+                                    <input type="password" name="password" autoComplete="current-password" className="form-control" value={password} onChange={(e) => {this.onChangeInput(e,'password')}} />
                                 </div>
                                 <div className="col-md-6 mt-3">
                                     <label className="form-label">Name</label>
