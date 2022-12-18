@@ -1,0 +1,27 @@
+.section-banner {
+  height: 500px;
+  margin: 20px;
+}
+.section-banner .banner-content {
+  height: 100%;
+}
+.section-banner .banner-content .banner-item {
+  height: 100%;
+}
+.section-banner .banner-content .banner-item .bg-item-1 {
+  height: 60vh;
+  background-size: contain;
+  background: url("../../../assets/banner/banner_00.webp") center center no-repeat;
+}
+.section-banner .banner-content .banner-item .bg-item-2 {
+  height: 60vh;
+  background-size: contain;
+  background: url("../../../assets/banner/banner_02.webp") center center no-repeat;
+}
+.section-banner .banner-content .slick-prev {
+  left: 100px !important;
+  z-index: 1000 !important;
+}
+.section-banner .banner-content .slick-next {
+  right: 100px !important;
+}/*# sourceMappingURL=Banner.css.map */

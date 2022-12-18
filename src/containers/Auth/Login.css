@@ -1,0 +1,63 @@
+.login-background {
+  height: 100vh;
+  background: linear-gradient(135deg, rgb(34, 193, 195) 0%, rgb(253, 187, 45) 100%);
+  font-family: "work sans";
+}
+.login-background .login-container {
+  width: 500px;
+  height: 600px;
+  border-radius: 25px;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  background-color: white;
+}
+.login-background .login-container .login-content {
+  padding: 10px;
+}
+.login-background .login-container .login-content .text-login {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.login-background .login-container .login-content .form-group {
+  margin-bottom: 20px;
+}
+.login-background .login-container .login-content .form-group .form-label {
+  font-size: 20px;
+  font-weight: 500;
+  color: black;
+}
+.login-background .login-container .login-content .form-group .form-control {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgb(89, 88, 88);
+}
+.login-background .login-container .login-content .forgot-password {
+  font-size: 14px;
+}
+.login-background .login-container .login-content .group-btn {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+.login-background .login-container .login-content .group-btn .btn {
+  width: 50%;
+  margin: 10px 5px;
+  height: 50px;
+  border-radius: 15px;
+  outline: none;
+  border: none;
+  color: black;
+  font-size: 20px;
+  background: linear-gradient(135deg, rgb(34, 193, 195) 0%, rgb(253, 187, 45) 100%);
+}/*# sourceMappingURL=Login.css.map */
