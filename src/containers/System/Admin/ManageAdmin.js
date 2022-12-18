@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { LANGUAGE } from '../../../utils';
 import * as actions from '../../../store/actions'
 import Lightbox from 'react-image-lightbox';
+import TableManage from './TableManage';
 import './ManageAdmin.scss';
 
 
@@ -205,6 +206,9 @@ class ManageAdmin extends Component {
                                     <button className="px-3 btn btn-primary" onClick={() => this.handleSave()}>Sign in</button>
                                 </div>
                             </form>
+                            <div className='col-12'>
+                                <TableManage/>
+                            </div>
                     </div>
                 </div>
                 { this.state.isOpen === true &&
