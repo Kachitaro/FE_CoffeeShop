@@ -28,6 +28,10 @@ class TableManage extends Component {
         } 
     }
 
+    handleDeleteUser = (user) =>{
+        this.props.deleteUsers(user.id);
+    }
+
     render() {
         let arrUsers = this.state.usersArr;
         return (
@@ -56,7 +60,7 @@ class TableManage extends Component {
                                         <td>{item.position}</td>
                                         <td>
                                             <button className='btn-edit'><i className='fas fa-pencil-alt'></i></button>
-                                            <button className='btn-delete'><i className='fas fa-trash'></i></button>
+                                            <button onClick={() => this.handleDeleteUser(item)} className='btn-delete'><i className='fas fa-trash'></i></button>
                                         </td>
                                     </tr>
                                     )
@@ -81,6 +85,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchAllUser:() => dispatch(actions.fetchAllUsersStart()),
+        deleteUsers: (id) => dispatch(actions.deleteUsers(id)),
     };
 };
 

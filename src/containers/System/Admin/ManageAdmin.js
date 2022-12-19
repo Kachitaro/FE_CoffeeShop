@@ -62,7 +62,22 @@ class ManageAdmin extends Component {
                 positionArr: arrPosition,
                 position: arrPosition && arrPosition.length > 0 ? arrPosition[0].key : '' 
             })
-        }  
+        }
+        if(prevProps.listUsers !== this.props.listUsers){
+            this.setState({
+                name: '',
+                email: '',
+                password: '',
+                address: '',
+                phoneNumber: '',
+                gender: '',
+                birthDate: '',
+                salary: '',
+                position: '',
+                roleId: '',
+                avatar: '',
+            })
+        } 
     }
 
     handleOnChangeImage = (event) => {
@@ -140,7 +155,7 @@ class ManageAdmin extends Component {
                             <form className="row mx-auto">
                                 <div className="col-md-6 mt-3">
                                     <label className="form-label">Email</label>
-                                    <input type="email" className="form-control" autoComplete="off" value={email} onChange={(e) => {this.onChangeInput(e,'email')}} />
+                                    <input type="email" className="form-control" autoComplete="on" value={email} onChange={(e) => {this.onChangeInput(e,'email')}} />
                                 </div>
                                 <div className="col-md-6 mt-3">
                                     <label  className="form-label">Password</label>
@@ -206,7 +221,7 @@ class ManageAdmin extends Component {
                                     <button className="px-3 btn btn-primary" onClick={() => this.handleSave()}>Sign in</button>
                                 </div>
                             </form>
-                            <div className='col-12'>
+                            <div className='col-12 my-3'>
                                 <TableManage/>
                             </div>
                     </div>
@@ -230,6 +245,7 @@ const mapStateToProps = state => {
         role: state.admin.roles,
         position: state.admin.positions,
         isLoading: state.admin.isLoading,
+        listUsers : state.admin.users,
     };
 };
 
@@ -238,7 +254,8 @@ const mapDispatchToProps = dispatch => {
         getGenderStart: () => dispatch(actions.fetchGenderStart()),
         getPositionStart: () => dispatch(actions.fetchPositionStart()),
         getRoleStart: () => dispatch(actions.fetchRoleStart()),
-        createNewUser: (data) => dispatch(actions.createNewUser(data))
+        createNewUser: (data) => dispatch(actions.createNewUser(data)),
+        //fetchUser: () => dispatch(actions.fetchAllUsersStart()),
     };
 };
 
