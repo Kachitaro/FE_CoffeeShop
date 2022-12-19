@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 //import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { LANGUAGE } from '../../../utils';
+import { LANGUAGE, CRUD_ACTIONS } from '../../../utils';
 import * as actions from '../../../store/actions'
 import Lightbox from 'react-image-lightbox';
 import TableManage from './TableManage';
@@ -30,6 +30,9 @@ class ManageAdmin extends Component {
             position: '',
             roleId: '',
             avatar: '',
+
+            actions: '',
+            usersEditId: ''
         }
     }
 
@@ -47,7 +50,6 @@ class ManageAdmin extends Component {
                 genderArr: arrGender,
                 gender: arrGender && arrGender.length > 0 ? arrGender[0].key : ''
             })
-            
         }
         if(prevProps.role !== this.props.role){
             let arrRole = this.props.role;
@@ -64,18 +66,22 @@ class ManageAdmin extends Component {
             })
         }
         if(prevProps.listUsers !== this.props.listUsers){
+            let arrGender = this.props.gender;
+            let arrRole = this.props.role;
+            let arrPosition = this.props.position;
             this.setState({
                 name: '',
                 email: '',
                 password: '',
                 address: '',
                 phoneNumber: '',
-                gender: '',
+                gender: arrGender && arrGender.length > 0 ? arrGender[0].key:'',
                 birthDate: '',
                 salary: '',
-                position: '',
-                roleId: '',
+                position: arrPosition && arrPosition.length > 0 ? arrPosition[0].key:'',
+                roleId: arrRole && arrRole.length > 0 ? arrRole[0].key:'',
                 avatar: '',
+                actions: CRUD_ACTIONS.CREATE,
             })
         } 
     }
@@ -99,23 +105,40 @@ class ManageAdmin extends Component {
             isOpen: true
         })
     }
+    
     handleSave = () => {
-        let isValidate = this.checkValidateInput();
-        if (isValidate === false) return;
+        let {actions} = this.state;
+        if(actions=== CRUD_ACTIONS.CREATE){
+            let isValidate = this.checkValidateInput();
+            if (isValidate === false) return;
 
-        this.props.createNewUser({
-            email: this.state.email,
-            password: this.state.password,
-            name: this.state.name,
-            address: this.state.address,
-            phoneNumber: this.state.phoneNumber,
-            gender: this.state.gender,
-            birthDate: this.state.gender,
-            salary: this.state.salary,
-            position: this.state.position,
-            roleId: this.state.roleId,
-            avatar: this.state.avatar,
-        })
+            this.props.createNewUser({
+                email: this.state.email,
+                password: this.state.password,
+                name: this.state.name,
+                address: this.state.address,
+                phoneNumber: this.state.phoneNumber,
+                gender: this.state.gender,
+                position: this.state.position,
+                roleId: this.state.roleId,
+                avatar: this.state.avatar,
+            })
+        }
+        if (actions === CRUD_ACTIONS.EDIT){
+            this.props.editUsers({
+                id: this.state.usersEditId,
+                email: this.state.email,
+                //password: this.state.password,
+                name: this.state.name,
+                address: this.state.address,
+                phoneNumber: this.state.phoneNumber,
+                gender: this.state.gender,
+                birthDate: this.state.birthDate,
+                salary: this.state.salary,
+                position: this.state.position,
+                roleId: this.state.roleId,
+            })
+        }  
     }
 
     checkValidateInput = () => {
@@ -139,6 +162,24 @@ class ManageAdmin extends Component {
         })
     }
 
+    editUsers = (user) => {
+        this.setState({
+            usersEditId: user.id,
+            email: user.email,
+            name: user.name,
+            address: user.address,
+            phoneNumber: user.phoneNumber,
+            gender: user.gender,
+            birthDate: user.birthDate,
+            salary: user.salary,
+            position: user.position,
+            roleId: user.roleId,
+            avatar: '',
+            actions: CRUD_ACTIONS.EDIT,
+
+        })
+    }
+
 
     render() {
         let genderA = this.state.genderArr;
@@ -146,7 +187,7 @@ class ManageAdmin extends Component {
         let roles = this.state.roleArr;
         let positions = this.state.positionArr;
         let isLoading = this.props.isLoading;
-        let {email, password, name, address, phoneNumber} = this.state;
+        let {email, password,gender,position,role , name, address, phoneNumber} = this.state;
         return (
             <div className='manage-admin-container'>
                 <div className='manage-admin-content'>
@@ -155,11 +196,22 @@ class ManageAdmin extends Component {
                             <form className="row mx-auto">
                                 <div className="col-md-6 mt-3">
                                     <label className="form-label">Email</label>
-                                    <input type="email" className="form-control" autoComplete="on" value={email} onChange={(e) => {this.onChangeInput(e,'email')}} />
+                                    <input type="email" className="form-control" 
+                                        autoComplete="on" 
+                                        value={email} 
+                                        onChange={(e) => {this.onChangeInput(e,'email')}}
+                                        disabled={this.state.actions === CRUD_ACTIONS.EDIT ? true : false} 
+                                        />
                                 </div>
                                 <div className="col-md-6 mt-3">
                                     <label  className="form-label">Password</label>
-                                    <input type="password" name="password" autoComplete="current-password" className="form-control" value={password} onChange={(e) => {this.onChangeInput(e,'password')}} />
+                                    <input type="password" 
+                                        autoComplete="current-password" 
+                                        className="form-control" 
+                                        value={password} 
+                                        onChange={(e) => {this.onChangeInput(e,'password')}}
+                                        disabled={this.state.actions === CRUD_ACTIONS.EDIT ? true : false}
+                                        />
                                 </div>
                                 <div className="col-md-6 mt-3">
                                     <label className="form-label">Name</label>
@@ -171,7 +223,7 @@ class ManageAdmin extends Component {
                                 </div>  
                                 <div className="col-md-3 mt-3">
                                     <label className="form-label">Gender</label>
-                                    <select className="form-select" onChange={(e) => {this.onChangeInput(e,'gender')}} >
+                                    <select className="form-select" onChange={(e) => {this.onChangeInput(e,'gender')}} value={gender} >
                                         {genderA && genderA.length> 0 && 
                                             genderA.map((item, index) => {
                                                 return(
@@ -183,7 +235,7 @@ class ManageAdmin extends Component {
                                 </div>
                                 <div className="col-md-3 mt-3">
                                     <label className="form-label">ROLE</label>
-                                    <select className="form-select" onChange={(e) => {this.onChangeInput(e,'roleId')}}>
+                                    <select className="form-select" onChange={(e) => {this.onChangeInput(e,'roleId')}} value={role}>
                                         {roles && roles.length> 0 && 
                                             roles.map((item, index) => {
                                                 return(
@@ -195,7 +247,7 @@ class ManageAdmin extends Component {
                                 </div>
                                 <div className="col-md-3 mt-3">
                                     <label className="form-label">Position</label>
-                                    <select className="form-select" onChange={(e) => {this.onChangeInput(e,'position')}}>
+                                    <select className="form-select" onChange={(e) => {this.onChangeInput(e,'position')}} value={position}>
                                         {positions && positions.length> 0 && 
                                             positions.map((item, index) => {
                                                 return(
@@ -218,11 +270,18 @@ class ManageAdmin extends Component {
                                     </div>
                                 </div>
                                 <div className="col-12 mt-3">
-                                    <button className="px-3 btn btn-primary" onClick={() => this.handleSave()}>Sign in</button>
+                                    <button 
+                                        className={this.state.actions === CRUD_ACTIONS.EDIT ? "btn btn-warning":"btn btn-primary" } 
+                                        onClick={() => this.handleSave()}>
+                                            {this.state.actions === CRUD_ACTIONS.EDIT ? 'SAVE' : 'ADD' }
+                                        </button>
                                 </div>
                             </form>
                             <div className='col-12 my-3'>
-                                <TableManage/>
+                                <TableManage
+                                    editUsers={this.editUsers}
+                                    actions={this.state.actions}
+                                />
                             </div>
                     </div>
                 </div>
@@ -255,6 +314,7 @@ const mapDispatchToProps = dispatch => {
         getPositionStart: () => dispatch(actions.fetchPositionStart()),
         getRoleStart: () => dispatch(actions.fetchRoleStart()),
         createNewUser: (data) => dispatch(actions.createNewUser(data)),
+        editUsers:(data) => dispatch(actions.editUsersStart(data))
         //fetchUser: () => dispatch(actions.fetchAllUsersStart()),
     };
 };

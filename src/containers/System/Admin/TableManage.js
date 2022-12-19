@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+//import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions'
 import './TableManage.scss';
@@ -32,6 +32,10 @@ class TableManage extends Component {
         this.props.deleteUsers(user.id);
     }
 
+    handleEditUser = (user) => {
+        this.props.editUsers(user)
+    }
+
     render() {
         let arrUsers = this.state.usersArr;
         return (
@@ -59,7 +63,7 @@ class TableManage extends Component {
                                         <td>{item.gender}</td>
                                         <td>{item.position}</td>
                                         <td>
-                                            <button className='btn-edit'><i className='fas fa-pencil-alt'></i></button>
+                                            <button onClick={() => this.handleEditUser(item)} className='btn-edit'><i className='fas fa-pencil-alt'></i></button>
                                             <button onClick={() => this.handleDeleteUser(item)} className='btn-delete'><i className='fas fa-trash'></i></button>
                                         </td>
                                     </tr>
