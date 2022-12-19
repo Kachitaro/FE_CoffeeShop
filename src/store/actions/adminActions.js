@@ -161,7 +161,6 @@ export const deleteUsersFailed = () => ({
 export const editUsersStart = (data) => {
     return async (dispatch, getState) => {
         try {
-            console.log(data.name);
             let res = await editUserService(data);
             if(res && res.errCode === 0){
                 toast.success("Update the user Success!");
