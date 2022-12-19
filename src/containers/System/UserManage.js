@@ -193,6 +193,7 @@ class UserManage extends Component {
 
 const mapStateToProps = state => {
     return {
+        userInfo: state.user.userInfo
     };
 };
 

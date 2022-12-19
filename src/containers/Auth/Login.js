@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import './Login.scss';
-import { handleLogin } from '../../services/userService';
-import { userLoginSuccess } from '../../store/actions';
+//import { userLoginSuccess } from '../../store/actions';
 //import { FormattedMessage } from 'react-intl';
 
 
@@ -18,41 +17,25 @@ class Login extends Component {
         };
     }
 
-    handelChangeUser(e) {
+    handelChangeInput = (e, id) => {
+        let copyState = { ...this.state }
+        copyState[id] = e.target.value;
         this.setState({
-            email: e.target.value
-        })
-    }
-    handelChangePass(e) {
-        this.setState({
-            password: e.target.value
+            ...copyState
         })
     }
 
-    handelLogin = async () => {
-        this.setState({
-            errorMessage: ''
+
+    handelLogin = () => {
+        this.props.userLogin({
+            email: this.state.email,
+            password: this.state.password
         })
-        try {
-            let data = await handleLogin(this.state.email, this.state.password);
-            if (data && data.errCode !== 0) {
-                this.setState({
-                    errorMessage: data.message
-                })
-            }
-            if (data && data.errCode === 0) {
-               this.props.userLoginSuccess(data.data);
-            }
-        } catch (error) {
-            if (error.response && error.response.data) {
-                this.setState({
-                    errorMessage: error.response.data.message
-                })
-            }
-        }
     }
 
     render() {
+
+        let {email, password, errorMessage} = this.state;
         return (
             <div className="login-background">
                 <div className="login-container">
@@ -60,35 +43,35 @@ class Login extends Component {
                         <div className='col-12 text-login'>Login</div>
                         <div className='col-12 form-group'>
                             <label className='form-label'>Email:</label>
-                            <input 
-                                type="text" 
-                                className="form-control" 
-                                value={this.state.email} 
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={email}
                                 placeholder="Enter your email"
-                                onChange={(e) => {this.handelChangeUser(e)}}
-                                />
+                                onChange={(e) => { this.handelChangeInput(e,'email') }}
+                            />
                         </div>
                         <div className='col-12 form-group'>
                             <label className='form-label' >Password:</label>
                             <div className='customs-eye'>
-                                <input 
-                                    type= 'password'
-                                    className="form-control" 
-                                    value={this.state.password} 
+                                <input
+                                    type='password'
+                                    className="form-control"
+                                    value={password}
                                     placeholder="Enter your password"
-                                    onChange={(e) => {this.handelChangePass(e)}}
+                                    onChange={(e) => { this.handelChangeInput(e,'password') }}
                                 />
                             </div>
                         </div>
-                        <div className='col-12' style={{ fontSize:'20px' ,color: 'red'}}>
-                            {this.state.errorMessage}
+                        <div className='col-12' style={{ fontSize: '20px', color: 'red' }}>
+                            {errorMessage}
                         </div>
                         <div className='col-12 group-btn'>
-                                <button type="submit" className="btn" onClick={() => {this.handelLogin()}}>Login</button>
-                                <button type="submit" className="btn">Register</button>
+                            <button type="submit" className="btn" onClick={() => this.handelLogin()}>Login</button>
+                            <button type="submit" className="btn">Register</button>
                         </div>
                         <div className='col-12 forgot-password'>
-                           <span>Forgot your password?</span>
+                            <span>Forgot your password?</span>
                         </div>
                         <div className='col-12'></div>
                     </div>
@@ -109,8 +92,8 @@ const mapDispatchToProps = dispatch => {
         navigate: (path) => dispatch(push(path)),
         //adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
         userLoginFail: () => dispatch(actions.userLoginFail()),
-        userLoginSuccess: (adminInfo) => dispatch(actions.userLoginSuccess(adminInfo)),
-       
+        userLogin: (adminInfo) => dispatch(actions.userLogin(adminInfo)),
+
     };
 };
 

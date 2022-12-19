@@ -3,7 +3,8 @@ export const path = {
     HOMEPAGE: '/homepage',
     LOGIN: '/login',
     LOG_OUT: '/logout',
-    SYSTEM: '/system'
+    SYSTEM: '/system',
+    STAFF: '/staff'
 };
 
 export const LANGUAGE = {
@@ -25,4 +26,10 @@ export const dateFormat = {
 export const YesNoObj = {
     YES: 'Y',
     NO: 'N'
+}
+
+export const USER_ROLE = {
+    ADMIN: 'R1',
+    STAFF: 'R2',
+    CUSTOMER: 'R3'
 }

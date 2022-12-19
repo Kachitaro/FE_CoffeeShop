@@ -17,6 +17,9 @@
             "manage-category": "Manage Category",
             "manage-product": "Manage Product",
             "manage-blog": "Manage blog"
+        },
+        "staff":{
+            "order":"Order"
         }
     }
 }

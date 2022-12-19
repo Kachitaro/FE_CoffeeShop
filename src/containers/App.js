@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authentication';
 import { path } from '../utils';
 import Home from '../routes/Home';
+import Staff from '../routes/Staff'
 import Login from './Auth/Login';
 import HomePage from './Home/HomePage.js';
 import System from '../routes/System';
@@ -44,6 +45,7 @@ class App extends Component {
                                     <Route path={path.HOMEPAGE} component={(HomePage)} />
                                     <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                                     <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
+                                    <Route path={path.STAFF} component={userIsAuthenticated(Staff)} />
                                 </Switch>
                             </CustomScrollbars>
                         </div>

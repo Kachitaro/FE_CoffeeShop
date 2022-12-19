@@ -17,6 +17,9 @@
             "manage-category": "Quản lý menu",
             "manage-product": "Quản lý sản phẩm",
             "manage-blog": "Quản lý bài đăng"
+        },
+        "staff":{
+            "order":"Đặt đơn"
         }
     }
 }
