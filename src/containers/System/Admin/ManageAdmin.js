@@ -161,7 +161,7 @@ class ManageAdmin extends Component {
             ...copyState
         })
     }
-
+    
     editUsers = (user) => {
         this.setState({
             usersEditId: user.id,
